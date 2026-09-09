@@ -59,4 +59,14 @@ describe('Vie Vegan homepage', () => {
       expect(link).toHaveAttribute('href', 'https://www.meandu.app/vievegan/pickup/main-menu-new')
     })
   })
+
+  it('renders a playful recovery page for unknown routes', () => {
+    window.history.pushState({}, '', '/this-bowl-is-empty')
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 1, name: /phở-oh! this page is missing/i })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /empty phở bowl with noodles shaped like 404/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /back home/i })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: /see the menu/i })).toHaveAttribute('href', '/menu')
+  })
 })

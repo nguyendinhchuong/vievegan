@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, ArrowRight, Clock3, Instagram, MapPin, Menu, ShoppingBag, X } from 'lucide-react'
 import MenuPage from './MenuPage'
+import NotFoundPage from './NotFoundPage'
 
 const pickupUrl = 'https://www.meandu.app/vievegan/pickup/main-menu-new'
 const deliveryUrl = 'https://www.meandu.app/vievegan/delivery'
@@ -247,6 +248,8 @@ function MobileOrderBar() {
 }
 
 export default function App() {
-  if (window.location.pathname.replace(/\/+$/, '') === '/menu') return <MenuPage />
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (pathname === '/menu') return <MenuPage />
+  if (pathname !== '/') return <NotFoundPage />
   return <><Navigation /><main><Hero /><ProofTicker /><Favourites /><Story /><Services /><Visit /></main><Footer /><MobileOrderBar /></>
 }

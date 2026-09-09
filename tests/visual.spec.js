@@ -33,6 +33,43 @@ for (const viewport of viewports) {
   })
 }
 
+for (const viewport of viewports) {
+  test(`404 page is visible and responsive on ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await page.goto('/nothing-on-this-plate')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Phở-oh!')
+    await expect(page.getByRole('img', { name: /empty phở bowl/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Back home' })).toHaveAttribute('href', '/')
+    await expect(page.getByRole('link', { name: 'See the menu' })).toHaveAttribute('href', '/menu')
+
+    if (viewport.name === 'desktop') {
+      const authoredTop = await page.locator('.not-found-art').evaluate(() => {
+        for (const sheet of document.styleSheets) {
+          try {
+            for (const rule of sheet.cssRules) {
+              if (rule.selectorText === '.not-found-art') return rule.style.top
+            }
+          } catch {
+            // Cross-origin stylesheets are not inspectable and do not contain this local rule.
+          }
+        }
+        return null
+      })
+      expect(authoredTop).toBe('')
+    }
+
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }))
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth)
+
+    await page.screenshot({ path: `/tmp/vie-vegan-404-${viewport.name}.png`, fullPage: true })
+  })
+}
+
 test('mobile menu is usable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
