@@ -16,8 +16,9 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
  * @type {Route.MetaFunction}
  */
 export const meta = ({data}) => {
+  const title = data?.product?.title;
   return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
+    {title: title ? `Vie Vegan | ${title}` : 'Vie Vegan | Product'},
     {
       rel: 'canonical',
       href: `/products/${data?.product.handle}`,
@@ -103,30 +104,33 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const {title, descriptionHtml, description} = product;
+  const hasDescription = Boolean(
+    (description && description.trim()) || descriptionHtml,
+  );
 
   return (
     <div className="product">
       <ProductImage image={selectedVariant?.image} />
       <div className="product-main">
-        <h1>{title}</h1>
+        <h1 className="product-title display">{title}</h1>
         <ProductPrice
           price={selectedVariant?.price}
           compareAtPrice={selectedVariant?.compareAtPrice}
         />
-        <br />
+        {hasDescription ? (
+          <div className="product-description">
+            {descriptionHtml ? (
+              <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+            ) : (
+              <p>{description}</p>
+            )}
+          </div>
+        ) : null}
         <ProductForm
           productOptions={productOptions}
           selectedVariant={selectedVariant}
         />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
       </div>
       <Analytics.ProductView
         data={{

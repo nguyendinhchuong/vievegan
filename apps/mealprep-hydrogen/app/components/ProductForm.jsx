@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {Link, useNavigate} from 'react-router';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
@@ -11,6 +12,23 @@ import {useAside} from './Aside';
 export function ProductForm({productOptions, selectedVariant}) {
   const navigate = useNavigate();
   const {open} = useAside();
+  const [quantity, setQuantity] = useState(1);
+  const isAvailable = Boolean(selectedVariant?.availableForSale);
+
+  const handleQuantityChange = (event) => {
+    const nextValue = Number.parseInt(event.target.value, 10);
+    if (Number.isNaN(nextValue) || nextValue < 1) {
+      setQuantity(1);
+      return;
+    }
+    setQuantity(nextValue);
+  };
+
+  const handleAddToCartClick = () => {
+    if (!isAvailable) return;
+    open('cart');
+  };
+
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -19,8 +37,8 @@ export function ProductForm({productOptions, selectedVariant}) {
 
         return (
           <div className="product-options" key={option.name}>
-            <h5>{option.name}</h5>
-            <div className="product-options-grid">
+            <h5 className="product-options__label">{option.name}</h5>
+            <div className="product-options-grid" role="list">
               {option.optionValues.map((value) => {
                 const {
                   name,
@@ -40,18 +58,17 @@ export function ProductForm({productOptions, selectedVariant}) {
                   // as an anchor tag
                   return (
                     <Link
-                      className="product-options-item"
+                      className={`product-options-item${selected ? ' product-options-item--selected' : ''}`}
                       key={option.name + name}
                       prefetch="intent"
                       preventScrollReset
                       replace
                       to={`/products/${handle}?${variantUriQuery}`}
                       style={{
-                        border: selected
-                          ? '1px solid black'
-                          : '1px solid transparent',
                         opacity: available ? 1 : 0.3,
                       }}
+                      aria-label={`${option.name}: ${name}`}
+                      aria-current={selected ? 'true' : undefined}
                     >
                       <ProductOptionSwatch swatch={swatch} name={name} />
                     </Link>
@@ -65,15 +82,14 @@ export function ProductForm({productOptions, selectedVariant}) {
                   return (
                     <button
                       type="button"
-                      className={`product-options-item${exists && !selected ? ' link' : ''}`}
+                      className={`product-options-item${selected ? ' product-options-item--selected' : ''}${exists && !selected ? ' link' : ''}`}
                       key={option.name + name}
                       style={{
-                        border: selected
-                          ? '1px solid black'
-                          : '1px solid transparent',
                         opacity: available ? 1 : 0.3,
                       }}
                       disabled={!exists}
+                      aria-label={`${option.name}: ${name}`}
+                      aria-pressed={selected}
                       onClick={() => {
                         if (!selected) {
                           void navigate(`?${variantUriQuery}`, {
@@ -89,28 +105,45 @@ export function ProductForm({productOptions, selectedVariant}) {
                 }
               })}
             </div>
-            <br />
           </div>
         );
       })}
+
+      <div className="product-quantity">
+        <label className="product-quantity__label" htmlFor="product-quantity">
+          Quantity
+        </label>
+        <input
+          id="product-quantity"
+          className="product-quantity__input"
+          type="number"
+          name="quantity"
+          min={1}
+          step={1}
+          value={quantity}
+          disabled={!isAvailable}
+          onChange={handleQuantityChange}
+          aria-label="Quantity"
+        />
+      </div>
+
       <AddToCartButton
-        disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => {
-          open('cart');
-        }}
+        className="product-add-to-cart"
+        disabled={!selectedVariant || !isAvailable}
+        onClick={handleAddToCartClick}
         lines={
           selectedVariant
             ? [
                 {
                   merchandiseId: selectedVariant.id,
-                  quantity: 1,
+                  quantity,
                   selectedVariant,
                 },
               ]
             : []
         }
       >
-        {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+        {isAvailable ? 'Add to cart' : 'Unavailable'}
       </AddToCartButton>
     </div>
   );
