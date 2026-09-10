@@ -8,7 +8,12 @@ import {ProductItem} from '~/components/ProductItem';
  * @type {Route.MetaFunction}
  */
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
+  const handle = data?.collection?.handle;
+  if (handle === 'meal-prep') {
+    return [{title: 'Vie Vegan | Meal Prep'}];
+  }
+
+  return [{title: `Vie Vegan | ${data?.collection.title ?? ''} Collection`}];
 };
 
 /**
@@ -74,11 +79,20 @@ function loadDeferredData({context}) {
 export default function Collection() {
   /** @type {LoaderReturnData} */
   const {collection} = useLoaderData();
+  const isMealPrep = collection.handle === 'meal-prep';
 
   return (
-    <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
+    <div
+      className={
+        isMealPrep ? 'collection meal-prep-collection' : 'collection'
+      }
+    >
+      <header className="collection-header">
+        <h1 className="display">{collection.title}</h1>
+        {collection.description ? (
+          <p className="collection-description">{collection.description}</p>
+        ) : null}
+      </header>
       <PaginatedResourceSection
         connection={collection.products}
         resourcesClassName="products-grid"
@@ -112,6 +126,8 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     id
     handle
     title
+    description
+    availableForSale
     featuredImage {
       id
       altText
@@ -126,6 +142,9 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       maxVariantPrice {
         ...MoneyProductItem
       }
+    }
+    selectedOrFirstAvailableVariant {
+      availableForSale
     }
   }
 `;
