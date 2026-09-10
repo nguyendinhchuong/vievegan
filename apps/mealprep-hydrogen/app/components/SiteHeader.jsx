@@ -67,15 +67,8 @@ export function SiteHeaderMobileNav({
     close();
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      close();
-    }
-  };
-
   return (
-    <nav className="site-header-mobile-nav" aria-label="Mobile">
+    <nav className="site-header-mobile-nav" aria-label="Mobile menu">
       <a
         className="site-header__link"
         href={`${origin}/menu`}
@@ -87,7 +80,6 @@ export function SiteHeaderMobileNav({
         className="site-header__link"
         end
         onClick={handleClose}
-        onKeyDown={handleKeyDown}
         prefetch="intent"
         to="/collections/meal-prep"
       >
