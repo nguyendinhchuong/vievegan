@@ -50,10 +50,10 @@ Until the merchant completes link + deploy + DNS, there is no production Oxygen 
 Primary storefront URL is set in marketing `src/mealPrepData.js` as `mealPrepShopifyUrl`.
 Bitely fallback URL is `mealPrepBitelyUrl` / `PUBLIC_BITELY_URL`.
 
+## Kitchen SOP
+
+On each Shopify order, open order attributes and read `delivery_method`, `delivery_postcode`, `delivery_date`, `delivery_window` before packing.
+
 ## Storefront setup checklist
 
 Full merchant + developer steps: plan **Appendix A** (catalog, delivery, payments) and **Appendix B** (Hydrogen channel, link, env pull, publish catalog, deploy).
-
-## Kitchen SOP
-
-On each Shopify order, open the order attributes / additional details and read `delivery_method`, `delivery_postcode`, `delivery_date`, and `delivery_window` before packing.
