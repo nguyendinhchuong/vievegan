@@ -53,3 +53,7 @@ Bitely fallback URL is `mealPrepBitelyUrl` / `PUBLIC_BITELY_URL`.
 ## Storefront setup checklist
 
 Full merchant + developer steps: plan **Appendix A** (catalog, delivery, payments) and **Appendix B** (Hydrogen channel, link, env pull, publish catalog, deploy).
+
+## Kitchen SOP
+
+On each Shopify order, open the order attributes / additional details and read `delivery_method`, `delivery_postcode`, `delivery_date`, and `delivery_window` before packing.
