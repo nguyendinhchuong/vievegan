@@ -1,8 +1,8 @@
 import {Await, Link} from 'react-router';
 import {Suspense, useId} from 'react';
 import {Aside} from '~/components/Aside';
-import {Footer} from '~/components/Footer';
-import {Header, HeaderMenu} from '~/components/Header';
+import {SiteFooter} from '~/components/SiteFooter';
+import {SiteHeader, SiteHeaderMobileNav} from '~/components/SiteHeader';
 import {CartMain} from '~/components/CartMain';
 import {
   SEARCH_ENDPOINT,
@@ -16,30 +16,21 @@ import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 export function PageLayout({
   cart,
   children = null,
-  footer,
-  header,
-  isLoggedIn,
-  publicStoreDomain,
+  footer: _footer,
+  header: _header,
+  isLoggedIn: _isLoggedIn,
+  publicStoreDomain: _publicStoreDomain,
+  marketingOrigin,
+  bitelyUrl,
 }) {
   return (
     <Aside.Provider>
       <CartAside cart={cart} />
       <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
+      <MobileMenuAside marketingOrigin={marketingOrigin} />
+      <SiteHeader cart={cart} marketingOrigin={marketingOrigin} />
       <main>{children}</main>
-      <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      />
+      <SiteFooter marketingOrigin={marketingOrigin} bitelyUrl={bitelyUrl} />
     </Aside.Provider>
   );
 }
@@ -144,24 +135,13 @@ function SearchAside() {
 }
 
 /**
- * @param {{
- *   header: PageLayoutProps['header'];
- *   publicStoreDomain: PageLayoutProps['publicStoreDomain'];
- * }}
+ * @param {{marketingOrigin?: string}}
  */
-function MobileMenuAside({header, publicStoreDomain}) {
+function MobileMenuAside({marketingOrigin}) {
   return (
-    header.menu &&
-    header.shop.primaryDomain?.url && (
-      <Aside type="mobile" heading="MENU">
-        <HeaderMenu
-          menu={header.menu}
-          viewport="mobile"
-          primaryDomainUrl={header.shop.primaryDomain.url}
-          publicStoreDomain={publicStoreDomain}
-        />
-      </Aside>
-    )
+    <Aside type="mobile" heading="MENU">
+      <SiteHeaderMobileNav marketingOrigin={marketingOrigin} />
+    </Aside>
   );
 }
 
@@ -172,6 +152,8 @@ function MobileMenuAside({header, publicStoreDomain}) {
  * @property {HeaderQuery} header
  * @property {Promise<boolean>} isLoggedIn
  * @property {string} publicStoreDomain
+ * @property {string} [marketingOrigin]
+ * @property {string} [bitelyUrl]
  * @property {React.ReactNode} [children]
  */
 
