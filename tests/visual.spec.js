@@ -146,3 +146,39 @@ for (const viewport of viewports) {
     await page.screenshot({ path: `/tmp/vie-vegan-menu-${viewport.name}.png`, fullPage: true })
   })
 }
+
+for (const viewport of viewports) {
+  test(`meal prep page is complete and responsive on ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await page.goto('/meal-prep')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Your week')
+    await expect(page.getByRole('region', { name: 'Meal prep range' })).toBeVisible()
+    await expect(page.locator('.meal-prep-product')).toHaveCount(9)
+
+    const reveals = page.locator('.meal-prep-product, .meal-prep-process, .meal-prep-order-band')
+    for (let index = 0; index < await reveals.count(); index += 1) {
+      await reveals.nth(index).scrollIntoViewIfNeeded()
+      await page.waitForTimeout(350)
+    }
+
+    const photos = page.locator('.meal-prep-product img')
+    await expect(photos).toHaveCount(9)
+    for (let index = 0; index < await photos.count(); index += 1) {
+      await expect(photos.nth(index)).toBeVisible()
+    }
+
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }))
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth)
+
+    if (viewport.name === 'mobile') {
+      await expect(page.locator('.meal-prep-mobile-order')).toBeVisible()
+    }
+
+    await page.screenshot({ path: `/tmp/vie-vegan-meal-prep-${viewport.name}.png`, fullPage: true })
+  })
+}

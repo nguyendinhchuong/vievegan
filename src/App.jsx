@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, ArrowRight, Clock3, Instagram, MapPin, Menu, ShoppingBag, X } from 'lucide-react'
 import MenuPage from './MenuPage'
+import MealPrepPage from './MealPrepPage'
 import NotFoundPage from './NotFoundPage'
 
 const pickupUrl = 'https://www.meandu.app/vievegan/pickup/main-menu-new'
 const deliveryUrl = 'https://www.meandu.app/vievegan/delivery'
-const mealPrepUrl = 'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz'
 const mapUrl = 'https://www.google.com/maps/search/?api=1&query=206%20Barkly%20St%20Footscray%20VIC%203011'
 const ease = [0.22, 1, 0.36, 1]
 
@@ -17,7 +17,7 @@ const dishes = [
   { name: 'Vegan Fried Rice', note: 'Basmati rice tossed over high heat with vegetables and tofu.', price: 'from $17.90', image: '/images/fried-rice.jpg', className: 'dish-landscape' },
 ]
 
-const navItems = [['Menu', '/menu'], ['Our story', '/#story'], ['Meal prep', '/#services'], ['Visit', '/#visit']]
+const navItems = [['Menu', '/menu'], ['Our story', '/#story'], ['Meal prep', '/meal-prep'], ['Visit', '/#visit']]
 
 function Reveal({ children, className = '', delay = 0 }) {
   const reduceMotion = useReducedMotion()
@@ -199,7 +199,7 @@ function Services() {
       <SectionTitle eyebrow="More Vie, more often">Good food for <span className="text-accent">every rhythm.</span></SectionTitle>
       <div className="service-split">
         <motion.article className="service-panel service-meal" initial={{ y: 36, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8, ease }}>
-          <ParallaxImage src="/images/meal-prep.jpg" alt="Vie Vegan meal prep bowls" strength={14} /><div className="service-overlay"><p className="eyebrow light">Meal prep</p><h3>Feast all week.</h3><a href={mealPrepUrl} target="_blank" rel="noreferrer">Stock the fridge <ArrowRight size={18} /></a></div>
+          <ParallaxImage src="/images/meal-prep.jpg" alt="Vie Vegan meal prep bowls" strength={14} /><div className="service-overlay"><p className="eyebrow light">Meal prep</p><h3>Feast all week.</h3><a href="/meal-prep">Stock the fridge <ArrowRight size={18} /></a></div>
         </motion.article>
         <motion.article className="service-panel service-catering" initial={{ y: 56, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8, delay: 0.1, ease }}>
           <ParallaxImage src="/images/catering-spread.jpg" alt="Vie Vegan catering spread" strength={12} /><div className="service-overlay"><p className="eyebrow light">Catering</p><h3>Feed the whole table.</h3><a href="mailto:info@vievegan.com.au">Plan your spread <ArrowRight size={18} /></a></div>
@@ -250,6 +250,7 @@ function MobileOrderBar() {
 export default function App() {
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
   if (pathname === '/menu') return <MenuPage />
+  if (pathname === '/meal-prep') return <MealPrepPage />
   if (pathname !== '/') return <NotFoundPage />
   return <><Navigation /><main><Hero /><ProofTicker /><Favourites /><Story /><Services /><Visit /></main><Footer /><MobileOrderBar /></>
 }

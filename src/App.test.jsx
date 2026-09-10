@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { render, screen, waitForElementToBeRemoved, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import App from './App'
@@ -57,6 +57,30 @@ describe('Vie Vegan homepage', () => {
     expect(pickupLinks.length).toBeGreaterThan(0)
     pickupLinks.forEach((link) => {
       expect(link).toHaveAttribute('href', 'https://www.meandu.app/vievegan/pickup/main-menu-new')
+    })
+  })
+
+  it('renders the complete meal prep route with products and ordering', () => {
+    window.history.pushState({}, '', '/meal-prep')
+    render(<App />)
+
+    expect(screen.getByRole('heading', {
+      level: 1,
+      name: /your week of bold vietnamese, sorted/i,
+    })).toBeInTheDocument()
+
+    const range = screen.getByRole('region', { name: /meal prep range/i })
+    expect(within(range).getAllByRole('article')).toHaveLength(9)
+    expect(within(range).getByRole('heading', { name: /creamy coconut curry phở/i })).toBeInTheDocument()
+    expect(within(range).getByRole('heading', { name: /golden soup \(curry\)/i })).toBeInTheDocument()
+
+    const orderLinks = screen.getAllByRole('link', { name: /order (meal prep|now)/i })
+    expect(orderLinks.length).toBeGreaterThan(0)
+    orderLinks.forEach((link) => {
+      expect(link).toHaveAttribute(
+        'href',
+        'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz',
+      )
     })
   })
 

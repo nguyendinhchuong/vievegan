@@ -10,7 +10,7 @@ const ease = [0.22, 1, 0.36, 1]
 function MenuHeader() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const links = [['Menu', '/menu'], ['Our story', '/#story'], ['Meal prep', '/#services'], ['Visit', '/#visit']]
+  const links = [['Menu', '/menu'], ['Our story', '/#story'], ['Meal prep', '/meal-prep'], ['Visit', '/#visit']]
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40)
