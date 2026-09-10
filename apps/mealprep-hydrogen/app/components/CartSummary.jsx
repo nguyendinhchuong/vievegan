@@ -1,6 +1,6 @@
 import {CartForm, Money} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
-import {useFetcher} from 'react-router';
+import {Link, useFetcher} from 'react-router';
 
 /**
  * @param {CartSummaryProps}
@@ -37,23 +37,24 @@ export function CartSummary({cart, layout}) {
         giftCardHeadingId={giftCardHeadingId}
         giftCardInputId={giftCardInputId}
       />
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <CartCheckoutActions />
     </div>
   );
 }
 
 /**
- * @param {{checkoutUrl?: string}}
+ * Cart summary only renders when the cart has items, so this CTA always shows.
  */
-function CartCheckoutActions({checkoutUrl}) {
-  if (!checkoutUrl) return null;
-
+function CartCheckoutActions() {
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
-      </a>
-      <br />
+    <div className="cart-checkout-actions">
+      <Link
+        to="/fulfilment"
+        className="cart-fulfilment-cta"
+        aria-label="Continue to delivery options"
+      >
+        Continue to delivery options
+      </Link>
     </div>
   );
 }

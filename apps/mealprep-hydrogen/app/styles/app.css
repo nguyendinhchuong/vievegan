@@ -527,6 +527,60 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   display: flex;
 }
+
+.cart-checkout-actions {
+  margin-top: 1rem;
+}
+
+.cart-fulfilment-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--chilli);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.2s var(--ease);
+}
+
+.cart-fulfilment-cta:hover,
+.cart-fulfilment-cta:focus-visible {
+  background: #b8321c;
+  color: var(--paper);
+  outline: none;
+}
+
+.cart-fulfilment-cta:focus-visible {
+  outline: 2px solid var(--chilli);
+  outline-offset: 3px;
+}
+
+.fulfilment {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.fulfilment h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--ink);
+}
+
+.fulfilment p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.5;
+}
 /*
 * --------------------------------------------------
 * components/Search
