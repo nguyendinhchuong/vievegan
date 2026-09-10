@@ -1,6 +1,7 @@
 import {CartForm, Money} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {Link, useFetcher} from 'react-router';
+import {useAside} from '~/components/Aside';
 
 /**
  * @param {CartSummaryProps}
@@ -46,11 +47,14 @@ export function CartSummary({cart, layout}) {
  * Cart summary only renders when the cart has items, so this CTA always shows.
  */
 function CartCheckoutActions() {
+  const {close} = useAside();
+
   return (
     <div className="cart-checkout-actions">
       <Link
         to="/fulfilment"
         className="cart-fulfilment-cta"
+        onClick={close}
         aria-label="Continue to delivery options"
       >
         Continue to delivery options
