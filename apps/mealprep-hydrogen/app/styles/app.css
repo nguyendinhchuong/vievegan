@@ -942,10 +942,14 @@ button.reset:hover:not(:has(> *)) {
     color 0.2s var(--ease);
 }
 
-.product-options-item:hover:not(:disabled),
+.product-options-item:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
 .product-options-item:focus-visible {
   border-color: var(--ink);
-  outline: none;
+  outline: 2px solid var(--chilli);
+  outline-offset: 2px;
 }
 
 .product-options-item--selected {
