@@ -131,7 +131,9 @@ export default function Fulfilment() {
     !isPostcodeAllowed(postcode);
   const serverError = actionData?.ok === false ? actionData.error : null;
   const showServerPostcodeError =
-    method === 'delivery' && serverError === METHOD_HINT;
+    method === 'delivery' &&
+    serverError === METHOD_HINT &&
+    !isPostcodeAllowed(postcode);
   const postcodeInvalid = showPostcodeHint || showServerPostcodeError;
 
   const handleMethodChange = (event) => {
@@ -211,7 +213,7 @@ export default function Fulfilment() {
         ) : null}
 
         <div className="fulfilment-field">
-          <label htmlFor="date">Delivery day</label>
+          <label htmlFor="date">Fulfilment date</label>
           <select
             id="date"
             name="date"
@@ -233,7 +235,7 @@ export default function Fulfilment() {
 
         <div className="fulfilment-field fulfilment-window">
           <span className="fulfilment-window-label" id="window-label">
-            Delivery window
+            Time window
           </span>
           <p
             className="fulfilment-window-value"
