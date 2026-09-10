@@ -1,4 +1,7 @@
-export const mealPrepOrderUrl = 'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz'
+export const mealPrepShopifyUrl = 'https://mealprep.vievegan.com.au'
+export const mealPrepBitelyUrl = 'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz'
+/** @deprecated use mealPrepShopifyUrl — kept during soft launch naming transition */
+export const mealPrepOrderUrl = mealPrepShopifyUrl
 
 export const mealPrepProofs = [
   ['Made fresh', 'Cooked in our Footscray kitchen'],

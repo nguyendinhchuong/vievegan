@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, ArrowRight, Menu, ShoppingBag, X } from 'lucide-react'
-import { mealPrepOrderUrl, mealPrepProducts, mealPrepProofs, mealPrepSteps } from './mealPrepData'
+import { mealPrepBitelyUrl, mealPrepProducts, mealPrepProofs, mealPrepShopifyUrl, mealPrepSteps } from './mealPrepData'
 
 const ease = [0.22, 1, 0.36, 1]
 const navLinks = [['Menu', '/menu'], ['Our story', '/#story'], ['Meal prep', '/meal-prep'], ['Visit', '/#visit']]
 
-function MealPrepAction({ href, children, secondary = false }) {
+function MealPrepAction({ href, children, secondary = false, target, rel }) {
   const reduceMotion = useReducedMotion()
   return (
-    <motion.a className={`action-link ${secondary ? 'action-link-ghost' : 'action-link-primary'}`} href={href} target="_blank" rel="noreferrer" whileHover={reduceMotion ? undefined : { y: -3 }} whileTap={reduceMotion ? undefined : { scale: .97 }}>
+    <motion.a className={`action-link ${secondary ? 'action-link-ghost' : 'action-link-primary'}`} href={href} target={target} rel={rel} whileHover={reduceMotion ? undefined : { y: -3 }} whileTap={reduceMotion ? undefined : { scale: .97 }}>
       <span>{children}</span><ArrowRight size={18} aria-hidden="true" />
     </motion.a>
   )
@@ -39,7 +39,7 @@ function MealPrepHeader() {
           {navLinks.map(([label, href]) => <a key={href} href={href} aria-current={href === '/meal-prep' ? 'page' : undefined}>{label}</a>)}
         </nav>
         <div className="nav-actions">
-          <a className="nav-order" href={mealPrepOrderUrl} target="_blank" rel="noreferrer">Order meal prep <ArrowRight size={16} aria-hidden="true" /></a>
+          <a className="nav-order" href={mealPrepShopifyUrl}>Order meal prep <ArrowRight size={16} aria-hidden="true" /></a>
           <button className="menu-toggle" type="button" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu aria-hidden="true" /></button>
         </div>
       </header>
@@ -50,7 +50,7 @@ function MealPrepHeader() {
             <nav aria-label="Mobile navigation">
               {navLinks.map(([label, href], index) => <motion.a key={href} href={href} onClick={() => setOpen(false)} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: .08 + index * .06 }}><span>0{index + 1}</span>{label}</motion.a>)}
             </nav>
-            <MealPrepAction href={mealPrepOrderUrl}>Order meal prep</MealPrepAction>
+            <MealPrepAction href={mealPrepShopifyUrl}>Order meal prep</MealPrepAction>
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -73,7 +73,7 @@ function MealPrepHero() {
         <motion.p className="eyebrow light" initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7, ease }}>Meal prep · Made in Footscray</motion.p>
         <motion.h1 initial={reduceMotion ? false : { opacity: 0, y: 48 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .9, delay: .08, ease }}>Your week of bold Vietnamese, <em>sorted.</em></motion.h1>
         <motion.p className="meal-prep-hero-intro" initial={reduceMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .18, ease }}>Ready-to-heat vegan meals cooked fresh in Footscray: phở, rice bowls, and soups with the same clean ingredients we serve on Barkly Street. Stock the fridge once, eat well all week.</motion.p>
-        <motion.div className="hero-actions" initial={reduceMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .26, ease }}><MealPrepAction href={mealPrepOrderUrl}>Order meal prep</MealPrepAction></motion.div>
+        <motion.div className="hero-actions" initial={reduceMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .26, ease }}><MealPrepAction href={mealPrepShopifyUrl}>Order meal prep</MealPrepAction></motion.div>
       </motion.div>
       <a className="scroll-cue" href="#range"><span>Explore the range</span><ArrowDown size={17} aria-hidden="true" /></a>
     </section>
@@ -119,11 +119,51 @@ function MealPrepProcess() {
 }
 
 function MealPrepOrderBand() {
-  return <section className="meal-prep-order-band" aria-label="Order meal prep"><div className="shell"><div><p className="eyebrow light">Ready to stock the fridge?</p><h2>Fresh meals.<br /><em>Week sorted.</em></h2><p>Order Vie Vegan meal prep online, cooked fresh in Footscray.</p></div><MealPrepAction href={mealPrepOrderUrl}>Order now</MealPrepAction></div></section>
+  return (
+    <section className="meal-prep-order-band" aria-label="Order meal prep">
+      <div className="shell">
+        <div>
+          <p className="eyebrow light">Ready to stock the fridge?</p>
+          <h2>Fresh meals.<br /><em>Week sorted.</em></h2>
+          <p>Order Vie Vegan meal prep online, cooked fresh in Footscray.</p>
+        </div>
+        <div className="hero-actions">
+          <MealPrepAction href={mealPrepShopifyUrl}>Order now</MealPrepAction>
+          <MealPrepAction href={mealPrepBitelyUrl} secondary target="_blank" rel="noreferrer">Order via Bitely</MealPrepAction>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 function MealPrepFooter() {
-  return <footer className="footer menu-footer"><div className="shell footer-grid"><div className="footer-brand"><img src="/images/vievegan-logo.png" alt="Vie Vegan" /><p>Eat kind. Eat bold.<br />Eat Vie Vegan.</p></div><div><span className="footer-label">Visit</span><p>206 Barkly St<br />Footscray VIC 3011</p></div><div><span className="footer-label">Contact</span><a href="mailto:info@vievegan.com.au">info@vievegan.com.au</a></div></div><div className="shell footer-bottom"><span>© 2026 Vie Vegan</span><a href="/">Back to home</a></div></footer>
+  return (
+    <footer className="footer menu-footer">
+      <div className="shell footer-grid">
+        <div className="footer-brand">
+          <img src="/images/vievegan-logo.png" alt="Vie Vegan" />
+          <p>Eat kind. Eat bold.<br />Eat Vie Vegan.</p>
+        </div>
+        <div>
+          <span className="footer-label">Visit</span>
+          <p>206 Barkly St<br />Footscray VIC 3011</p>
+        </div>
+        <div>
+          <span className="footer-label">Contact</span>
+          <a href="mailto:info@vievegan.com.au">info@vievegan.com.au</a>
+        </div>
+        <div>
+          <span className="footer-label">Order</span>
+          <a href={mealPrepShopifyUrl}>Order meal prep</a>
+          <a href={mealPrepBitelyUrl} target="_blank" rel="noreferrer">Order via Bitely</a>
+        </div>
+      </div>
+      <div className="shell footer-bottom">
+        <span>© 2026 Vie Vegan</span>
+        <a href="/">Back to home</a>
+      </div>
+    </footer>
+  )
 }
 
 export default function MealPrepPage() {
@@ -138,5 +178,5 @@ export default function MealPrepPage() {
     }
   }, [])
 
-  return <div className="meal-prep-page"><MealPrepHeader /><main><MealPrepHero /><MealPrepProofStrip /><MealPrepRange /><MealPrepProcess /><MealPrepOrderBand /></main><MealPrepFooter /><div className="mobile-order-bar meal-prep-mobile-order"><a href={mealPrepOrderUrl} target="_blank" rel="noreferrer"><ShoppingBag size={18} aria-hidden="true" />Order meal prep</a></div></div>
+  return <div className="meal-prep-page"><MealPrepHeader /><main><MealPrepHero /><MealPrepProofStrip /><MealPrepRange /><MealPrepProcess /><MealPrepOrderBand /></main><MealPrepFooter /><div className="mobile-order-bar meal-prep-mobile-order"><a href={mealPrepShopifyUrl}><ShoppingBag size={18} aria-hidden="true" />Order meal prep</a></div></div>
 }
