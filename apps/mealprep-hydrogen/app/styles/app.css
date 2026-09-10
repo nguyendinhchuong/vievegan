@@ -707,9 +707,14 @@ button.reset:hover:not(:has(> *)) {
   transition: color 0.2s var(--ease);
 }
 
-.product-item:hover,
+.product-item:hover {
+  color: var(--ink);
+}
+
 .product-item:focus-visible {
   color: var(--ink);
+  outline: 2px solid var(--chilli);
+  outline-offset: 3px;
 }
 
 .product-item__media {

@@ -4,10 +4,7 @@ import {useVariantUrl} from '~/lib/variants';
 
 /**
  * @param {{
- *   product:
- *     | CollectionItemFragment
- *     | ProductItemFragment
- *     | RecommendedProductFragment;
+ *   product: CollectionItemFragment | ProductItemFragment;
  *   loading?: 'eager' | 'lazy';
  * }}
  */
@@ -26,14 +23,8 @@ export function ProductItem({product, loading}) {
   return (
     <Link
       className={`product-item${isUnavailable ? ' product-item--unavailable' : ''}`}
-      key={product.id}
       prefetch="intent"
       to={variantUrl}
-      aria-label={
-        isUnavailable
-          ? `${product.title} (unavailable)`
-          : `View ${product.title}`
-      }
     >
       <div className="product-item__media">
         {image ? (
@@ -50,7 +41,7 @@ export function ProductItem({product, loading}) {
         )}
       </div>
       <div className="product-item__body">
-        <h3 className="product-item__title display">{product.title}</h3>
+        <h2 className="product-item__title display">{product.title}</h2>
         {description ? (
           <p className="product-item__description">{description}</p>
         ) : null}
@@ -71,4 +62,3 @@ export function ProductItem({product, loading}) {
 
 /** @typedef {import('storefrontapi.generated').ProductItemFragment} ProductItemFragment */
 /** @typedef {import('storefrontapi.generated').CollectionItemFragment} CollectionItemFragment */
-/** @typedef {import('storefrontapi.generated').RecommendedProductFragment} RecommendedProductFragment */
