@@ -75,7 +75,7 @@ describe('Vie Vegan homepage', () => {
     const primary = screen.getAllByRole('link', { name: /order meal prep|order now/i })
     expect(primary.length).toBeGreaterThan(0)
     primary.forEach((link) => {
-      expect(link).toHaveAttribute('href', 'https://mealprep.vievegan.com.au')
+      expect(link).toHaveAttribute('href', 'http://localhost:3000')
     })
 
     const fallback = screen.getAllByRole('link', { name: /order via bitely/i })

@@ -3,7 +3,7 @@ import {Await, NavLink, useAsyncValue} from 'react-router';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 
-const DEFAULT_MARKETING_ORIGIN = 'https://vievegan.com.au';
+const DEFAULT_MARKETING_ORIGIN = 'https://new-vievegan-demo.onrender.com';
 
 /**
  * @param {SiteHeaderProps}

@@ -1,4 +1,4 @@
-const DEFAULT_MARKETING_ORIGIN = 'https://vievegan.com.au';
+const DEFAULT_MARKETING_ORIGIN = 'https://new-vievegan-demo.onrender.com';
 const DEFAULT_BITELY_URL =
   'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz';
 

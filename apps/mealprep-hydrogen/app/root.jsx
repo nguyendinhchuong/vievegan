@@ -76,7 +76,7 @@ export async function loader(args) {
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     marketingOrigin:
-      env.PUBLIC_MARKETING_ORIGIN || 'https://vievegan.com.au',
+      env.PUBLIC_MARKETING_ORIGIN || 'https://new-vievegan-demo.onrender.com',
     bitelyUrl:
       env.PUBLIC_BITELY_URL ||
       'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz',
