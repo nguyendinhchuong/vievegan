@@ -1203,10 +1203,27 @@ button.reset:hover:not(:has(> *)) {
 * --------------------------------------------------
 */
 .cart-main {
-  height: 100%;
-  max-height: calc(100vh - var(--cart-aside-summary-height));
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height) - 2.5rem);
+  max-height: calc(100vh - var(--header-height) - 2.5rem);
+  overflow: hidden;
   width: auto;
+}
+
+.cart-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  padding-bottom: 0;
+}
+
+.cart-details > div {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .cart-empty {
@@ -1292,24 +1309,20 @@ button.reset:hover:not(:has(> *)) {
   position: relative;
 }
 
-.cart-details {
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
 .cart-summary-aside {
   background: var(--paper);
   border-top: 1px solid var(--line);
-  bottom: 0;
+  margin-top: auto;
   margin-left: -1.25rem;
   margin-right: -1.25rem;
   width: calc(100% + 2.5rem);
   padding-top: 1rem;
   padding-right: 1.25rem;
-  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
   padding-left: 1.25rem;
-  position: absolute;
+  position: relative;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .cart-summary-aside h4 {
@@ -1465,16 +1478,18 @@ button.reset:hover:not(:has(> *)) {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
   text-transform: uppercase;
   transition: background-color 0.2s var(--ease);
 }
 
 .cart-fulfilment-cta:hover,
-.cart-fulfilment-cta:focus-visible {
+.cart-fulfilment-cta:focus,
+.cart-fulfilment-cta:focus-visible,
+.cart-fulfilment-cta:active {
   background: #b8321c;
   color: var(--paper);
-  text-decoration: none;
+  text-decoration: none !important;
   outline: none;
 }
 
