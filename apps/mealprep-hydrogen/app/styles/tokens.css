@@ -1,0 +1,27 @@
+:root {
+  --ink: #171914;
+  --paper: #f4f0e7;
+  --paper-deep: #e8e1d4;
+  --chilli: #d63c22;
+  --leaf: #1f6a46;
+  --acid: #d5e449;
+  --line: rgba(23, 25, 20, 0.18);
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'DM Sans', Arial, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--serif);
+  font-weight: 500;
+}

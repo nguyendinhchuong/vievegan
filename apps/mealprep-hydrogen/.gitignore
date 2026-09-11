@@ -1,0 +1,11 @@
+node_modules
+dist
+.shopify
+.env
+.env.*
+!.env.example
+.react-router
+.cache
+.DS_Store
+*.log
+.cursor

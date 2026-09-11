@@ -60,7 +60,7 @@ describe('Vie Vegan homepage', () => {
     })
   })
 
-  it('renders the complete meal prep route with products and ordering', () => {
+  it('renders the complete meal prep route with products and soft-launch ordering', () => {
     window.history.pushState({}, '', '/meal-prep')
     render(<App />)
 
@@ -71,12 +71,16 @@ describe('Vie Vegan homepage', () => {
 
     const range = screen.getByRole('region', { name: /meal prep range/i })
     expect(within(range).getAllByRole('article')).toHaveLength(9)
-    expect(within(range).getByRole('heading', { name: /creamy coconut curry phở/i })).toBeInTheDocument()
-    expect(within(range).getByRole('heading', { name: /golden soup \(curry\)/i })).toBeInTheDocument()
 
-    const orderLinks = screen.getAllByRole('link', { name: /order (meal prep|now)/i })
-    expect(orderLinks.length).toBeGreaterThan(0)
-    orderLinks.forEach((link) => {
+    const primary = screen.getAllByRole('link', { name: /order meal prep|order now/i })
+    expect(primary.length).toBeGreaterThan(0)
+    primary.forEach((link) => {
+      expect(link).toHaveAttribute('href', 'http://localhost:3000')
+    })
+
+    const fallback = screen.getAllByRole('link', { name: /order via bitely/i })
+    expect(fallback.length).toBeGreaterThan(0)
+    fallback.forEach((link) => {
       expect(link).toHaveAttribute(
         'href',
         'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz',

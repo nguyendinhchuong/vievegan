@@ -3,3 +3,6 @@ dist
 
 # AI generated files
 .superpowers
+
+# Local git worktrees
+.worktrees

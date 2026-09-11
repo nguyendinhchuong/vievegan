@@ -1,4 +1,9 @@
-export const mealPrepOrderUrl = 'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz'
+// Local Hydrogen storefront while developing. Swap to the Oxygen URL after deploy.
+export const mealPrepShopifyUrl = 'http://localhost:3000'
+export const mealPrepMarketingOrigin = 'https://new-vievegan-demo.onrender.com'
+export const mealPrepBitelyUrl = 'https://app.bitely.com.au/order/vievegan/IPfk2NI9XbSgEOHmR0Gz'
+/** @deprecated use mealPrepShopifyUrl — kept during soft launch naming transition */
+export const mealPrepOrderUrl = mealPrepShopifyUrl
 
 export const mealPrepProofs = [
   ['Made fresh', 'Cooked in our Footscray kitchen'],
